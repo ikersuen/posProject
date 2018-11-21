@@ -50,6 +50,33 @@ it ('checkPromotion', () => {
     expect(printReceipt.checkPromotion(printReceipt.calQuantity(loadAllItems(), loadItemBarcode()),loadPromotions())).toEqual(expected);
 });
 
+it ('getSubtotalPerItem', () => {
+  let receiptWithPromotion = printReceipt.checkPromotion(printReceipt.calQuantity(loadAllItems(), loadItemBarcode()),loadPromotions());
+  let expected = [ { barcode: 'ITEM000001',
+    name: 'Sprite',
+    unit: 'bottles',
+    price: 3,
+    quantity: 5,
+    promotionType: 'BUY_TWO_GET_ONE_FREE',
+    subtotal: 12 },
+  { barcode: 'ITEM000003',
+    name: 'Lychee',
+    unit: 'kg',
+    price: 15,
+    quantity: 2,
+    promotionType: 'NULL',
+    subtotal: 30 },
+  { barcode: 'ITEM000005',
+    name: 'Noodles',
+    unit: 'pack',
+    price: 4.5,
+    quantity: 3,
+    promotionType: 'BUY_TWO_GET_ONE_FREE',
+    subtotal: 9 }
+  ]
+    expect(printReceipt.getSubtotalPerItem(receiptWithPromotion)).toEqual(expected);
+});
+
 function loadItemBarcode(){
   return [
   'ITEM000001',

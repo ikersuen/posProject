@@ -38,9 +38,24 @@ function checkPromotion(uniqueItemList, promotions){
   return receiptWithPromotion;
 }
 
-function getSubtotalPerItem(receiptWithPromotion){return receiptWithSubtotal}
+function getSubtotalPerItem(receiptWithPromotion){
+  let receiptWithSubtotal = []
 
-console.log(checkPromotion(calQuantity(loadAllItems(),loadItemBarcode()),loadPromotions()));
+  receiptWithPromotion.forEach((uniqueItem) => {
+    uniqueItem.subtotal = 0;
+    if(uniqueItem.promotionType === 'BUY_TWO_GET_ONE_FREE'){
+      uniqueItem.subtotal = uniqueItem.price * (uniqueItem.quantity - parseInt(uniqueItem.quantity/3));
+    }else{
+      uniqueItem.subtotal = uniqueItem.price * uniqueItem.quantity;
+    }
+	})
+  receiptWithSubtotal = receiptWithPromotion;
+  return receiptWithSubtotal
+}
+
+var receiptWithPromotion = checkPromotion(calQuantity(loadAllItems(),loadItemBarcode()),loadPromotions());
+
+console.log(getSubtotalPerItem(receiptWithPromotion));
 
 
 function getTotalPrice(receiptWithSubtotal){return totalPrice}
@@ -124,4 +139,4 @@ function loadPromotions() {
   ];
 }
 
-module.exports = {calQuantity, checkPromotion};
+module.exports = {calQuantity, checkPromotion, getSubtotalPerItem};
