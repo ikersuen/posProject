@@ -22,14 +22,26 @@ function calQuantity(allItems, itemBarcode){
         });
       }
   });
-  receiptWithQuantity = uniqueItemList.slice();
-  return receiptWithQuantity;
+  return uniqueItemList;
 }
-function calUnitPrice(receiptWithQuantity){return receiptWithPrice}
 
-function checkPromotion(receiptWithPrice){return receptwithPromotion}
+function checkPromotion(uniqueItemList, promotions){
+  let receptwithPromotion = []
+
+	uniqueItemList.forEach((uniqueItem) => {
+    uniqueItem.promotionType = 'NULL';
+    promotions.forEach(promote =>
+       uniqueItem.promotionType = (promote.barcodes.includes(uniqueItem.barcode)) ? promote.type : 'NULL'
+    );
+	})
+  receiptWithPromotion = uniqueItemList;
+  return receiptWithPromotion;
+}
 
 function getSubtotalPerItem(receiptWithPromotion){return receiptWithSubtotal}
+
+console.log(checkPromotion(calQuantity(loadAllItems(),loadItemBarcode()),loadPromotions()));
+
 
 function getTotalPrice(receiptWithSubtotal){return totalPrice}
 
@@ -112,4 +124,4 @@ function loadPromotions() {
   ];
 }
 
-module.exports = {calQuantity, calUnitPrice};
+module.exports = {calQuantity, checkPromotion};

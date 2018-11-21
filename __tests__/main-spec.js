@@ -27,6 +27,29 @@ it ('calQuantity', () => {
 	expect(printReceipt.calQuantity(loadAllItems(), loadItemBarcode())).toEqual(expected);
 });
 
+it ('checkPromotion', () => {
+  let expected = [ { barcode: 'ITEM000001',
+    name: 'Sprite',
+    unit: 'bottles',
+    price: 3,
+    quantity: 5,
+    promotionType: 'BUY_TWO_GET_ONE_FREE' },
+  { barcode: 'ITEM000003',
+    name: 'Lychee',
+    unit: 'kg',
+    price: 15,
+    quantity: 2,
+    promotionType: 'NULL' },
+  { barcode: 'ITEM000005',
+    name: 'Noodles',
+    unit: 'pack',
+    price: 4.5,
+    quantity: 3,
+    promotionType: 'BUY_TWO_GET_ONE_FREE' }
+  ];
+    expect(printReceipt.checkPromotion(printReceipt.calQuantity(loadAllItems(), loadItemBarcode()),loadPromotions())).toEqual(expected);
+});
+
 function loadItemBarcode(){
   return [
   'ITEM000001',
