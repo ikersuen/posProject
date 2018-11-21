@@ -66,9 +66,18 @@ function getTotalPrice(receiptWithSubtotal){
 
 console.log(getTotalPrice(receiptWithSubtotal));
 
-function createFinalReceipt(receiptWithSubtotal, totalPrice){return receipt}
+function createFinalReceipt(receiptWithSubtotal, totalPrice){
+  let receipt = `***<store earning no money>Receipt ***\n`;
+  receiptWithSubtotal.forEach(item => receipt += `Name: ${item.name}, Quantity: ${item.quantity} ${item.unit}, Unit price: ${item.price} (yuan), Subtotal: ${item.subtotal}.00 (yuan)\n`)
+  receipt += `----------------------\nTotal: ${totalPrice} (yuan)\nSaving: 4.00 (yuan)\n**********************`
+  return receipt
+}
 
-function printReceipt(allItems, itemBarcode, promotions){return receipt}
+console.log(createFinalReceipt(receiptWithSubtotal, getTotalPrice(receiptWithSubtotal)));
+
+function printReceipt(allItems, itemBarcode, promotions){
+  return receipt
+}
 
 function main(){
   var allItems = loadAllItems();
@@ -145,4 +154,4 @@ function loadPromotions() {
   ];
 }
 
-module.exports = {calQuantity, checkPromotion, getSubtotalPerItem, getTotalPrice};
+module.exports = {calQuantity, checkPromotion, getSubtotalPerItem, getTotalPrice, createFinalReceipt};

@@ -87,6 +87,28 @@ it ('getTotalPrice', () => {
 
 });
 
+it ('createFinalReceipt', () => {
+  let receiptWithPromotion = printReceipt.checkPromotion(printReceipt.calQuantity(loadAllItems(), loadItemBarcode()),loadPromotions());
+
+  let receiptWithSubtotal = printReceipt.getSubtotalPerItem(receiptWithPromotion);
+
+  let expected =
+`***<store earning no money>Receipt ***
+Name: Sprite, Quantity: 5 bottles, Unit price: 3 (yuan), Subtotal: 12.00 (yuan)
+Name: Lychee, Quantity: 2 kg, Unit price: 15 (yuan), Subtotal: 30.00 (yuan)
+Name: Noodles, Quantity: 3 pack, Unit price: 4.5 (yuan), Subtotal: 9.00 (yuan)
+----------------------
+Total: 51 (yuan)
+Saving: 4.00 (yuan)
+**********************`
+
+  expect(printReceipt.createFinalReceipt(receiptWithSubtotal,printReceipt.getTotalPrice(receiptWithSubtotal))).toEqual(expected);
+
+
+});
+
+
+
 function loadItemBarcode(){
   return [
   'ITEM000001',
