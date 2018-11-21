@@ -1,7 +1,30 @@
 function calQuantity(allItems, itemBarcode){
-  return receiptWithQuantity
-}
 
+  var receiptWithQuantity = [];
+  var uniqueItemList = [];
+  //find unique item List
+  uniqueItemList = allItems.filter(item => itemBarcode.map((x) => x.split("-")[0]).includes(item.barcode));
+  //initialize quantity in each object
+  uniqueItemList.forEach(item => item.quantity = 0);
+  //check quantity in barcode and itemBarcode
+  itemBarcode.forEach(function(barcode) {
+    if(barcode.includes('-')) {
+      uniqueItemList.forEach(function(uniqueItem){
+         if(uniqueItem.barcode === barcode.substring(0,10)){
+           uniqueItem.quantity += parseInt(barcode.split("-")[1]);
+         }else{
+           uniqueItem.quantity += 0;
+         }
+      });
+      }else{
+        uniqueItemList.forEach(function(uniqueItem){
+            uniqueItem.quantity += (uniqueItem.barcode === barcode.substring(0,10)) ? 1 : 0
+        });
+      }
+  });
+  receiptWithQuantity = uniqueItemList.slice();
+  return receiptWithQuantity;
+}
 function calUnitPrice(receiptWithQuantity){return receiptWithPrice}
 
 function checkPromotion(receiptWithPrice){return receptwithPromotion}
@@ -89,4 +112,4 @@ function loadPromotions() {
   ];
 }
 
-module.exports({});
+module.exports = {calQuantity, calUnitPrice};
