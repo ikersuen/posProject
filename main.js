@@ -1,3 +1,12 @@
+function printReceipt(allItems, itemBarcode, promotions){
+  let uniqueItemList = calQuantity(allItems, itemBarcode);
+  let receiptWithPromotion = checkPromotion(uniqueItemList, promotions);
+  let receiptWithSubtotal = getSubtotalPerItem(receiptWithPromotion);
+  let totalPrice = getTotalPrice(receiptWithSubtotal);
+  let receipt = createFinalReceipt(receiptWithSubtotal, totalPrice);
+  return receipt;
+}
+
 function calQuantity(allItems, itemBarcode){
 
   var receiptWithQuantity = [];
@@ -53,18 +62,11 @@ function getSubtotalPerItem(receiptWithPromotion){
   return receiptWithSubtotal
 }
 
-var receiptWithPromotion = checkPromotion(calQuantity(loadAllItems(),loadItemBarcode()),loadPromotions());
-
-var receiptWithSubtotal = getSubtotalPerItem(receiptWithPromotion);
-
-
 function getTotalPrice(receiptWithSubtotal){
   let totalPrice = 0;
   receiptWithSubtotal.forEach(item => totalPrice += item.subtotal)
   return totalPrice
 }
-
-console.log(getTotalPrice(receiptWithSubtotal));
 
 function createFinalReceipt(receiptWithSubtotal, totalPrice){
   let receipt = `***<store earning no money>Receipt ***\n`;
@@ -73,18 +75,14 @@ function createFinalReceipt(receiptWithSubtotal, totalPrice){
   return receipt
 }
 
-console.log(createFinalReceipt(receiptWithSubtotal, getTotalPrice(receiptWithSubtotal)));
-
-function printReceipt(allItems, itemBarcode, promotions){
-  return receipt
-}
-
 function main(){
   var allItems = loadAllItems();
   var promotions = loadPromotions();
   var itemBarcode = loadItemBarcode();
-  printReceipt(allItems, itemBarcode, promotions);
+  return printReceipt(allItems, itemBarcode, promotions);
 }
+
+console.log(main());
 
 function loadItemBarcode(){
   return [
@@ -154,4 +152,4 @@ function loadPromotions() {
   ];
 }
 
-module.exports = {calQuantity, checkPromotion, getSubtotalPerItem, getTotalPrice, createFinalReceipt};
+module.exports = {calQuantity, checkPromotion, getSubtotalPerItem, getTotalPrice, createFinalReceipt, printReceipt};
