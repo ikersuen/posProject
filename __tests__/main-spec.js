@@ -77,6 +77,16 @@ it ('getSubtotalPerItem', () => {
     expect(printReceipt.getSubtotalPerItem(receiptWithPromotion)).toEqual(expected);
 });
 
+it ('getTotalPrice', () => {
+  let receiptWithPromotion = printReceipt.checkPromotion(printReceipt.calQuantity(loadAllItems(), loadItemBarcode()),loadPromotions());
+
+  let receiptWithSubtotal = printReceipt.getSubtotalPerItem(receiptWithPromotion);
+
+  expect(printReceipt.getTotalPrice(receiptWithSubtotal)).toBe(51);
+
+
+});
+
 function loadItemBarcode(){
   return [
   'ITEM000001',

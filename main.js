@@ -55,10 +55,16 @@ function getSubtotalPerItem(receiptWithPromotion){
 
 var receiptWithPromotion = checkPromotion(calQuantity(loadAllItems(),loadItemBarcode()),loadPromotions());
 
-console.log(getSubtotalPerItem(receiptWithPromotion));
+var receiptWithSubtotal = getSubtotalPerItem(receiptWithPromotion);
 
 
-function getTotalPrice(receiptWithSubtotal){return totalPrice}
+function getTotalPrice(receiptWithSubtotal){
+  let totalPrice = 0;
+  receiptWithSubtotal.forEach(item => totalPrice += item.subtotal)
+  return totalPrice
+}
+
+console.log(getTotalPrice(receiptWithSubtotal));
 
 function createFinalReceipt(receiptWithSubtotal, totalPrice){return receipt}
 
@@ -139,4 +145,4 @@ function loadPromotions() {
   ];
 }
 
-module.exports = {calQuantity, checkPromotion, getSubtotalPerItem};
+module.exports = {calQuantity, checkPromotion, getSubtotalPerItem, getTotalPrice};
