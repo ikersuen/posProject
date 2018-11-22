@@ -16,7 +16,7 @@ function calQuantity(allItems, itemBarcode){
   //initialize quantity in each object
   uniqueItemList.forEach(item => item.quantity = 0)
   //check quantity in barcode and itemBarcode
-  itemBarcode.map(function(barcode) {
+  itemBarcode.forEach(function(barcode) {
     if(barcode.includes('-')) {
       uniqueItemList.map(function(uniqueItem){
          if(uniqueItem.barcode === barcode.substring(0,10)){
@@ -26,7 +26,7 @@ function calQuantity(allItems, itemBarcode){
          }
       });
     }else{
-      uniqueItemList.map(uniqueItem => uniqueItem.quantity += (uniqueItem.barcode === barcode.substring(0,10)) ? 1 : 0)
+      uniqueItemList.forEach(uniqueItem => uniqueItem.quantity += (uniqueItem.barcode === barcode.substring(0,10)) ? 1 : 0)
     }
   });
   return uniqueItemList
@@ -35,9 +35,9 @@ function calQuantity(allItems, itemBarcode){
 function checkPromotion(uniqueItemList, promotions){
   let receptwithPromotion = []
 
-	uniqueItemList.map((uniqueItem) => {
+	uniqueItemList.forEach((uniqueItem) => {
     uniqueItem.promotionType = 'NULL'
-    promotions.map(promote => uniqueItem.promotionType = (promote.barcodes.includes(uniqueItem.barcode)) ? promote.type : 'NULL')
+    promotions.forEach(promote => uniqueItem.promotionType = (promote.barcodes.includes(uniqueItem.barcode)) ? promote.type : 'NULL')
 	})
   receiptWithPromotion = uniqueItemList
   return receiptWithPromotion
@@ -46,7 +46,7 @@ function checkPromotion(uniqueItemList, promotions){
 function getSubtotalPerItem(receiptWithPromotion){
   let receiptWithSubtotal = []
 
-  receiptWithPromotion.map((uniqueItem) => {
+  receiptWithPromotion.forEach((uniqueItem) => {
     uniqueItem.subtotal = 0;
     if(uniqueItem.promotionType === 'BUY_TWO_GET_ONE_FREE'){
       uniqueItem.subtotal = uniqueItem.price * (uniqueItem.quantity - parseInt(uniqueItem.quantity/3))
@@ -60,14 +60,14 @@ function getSubtotalPerItem(receiptWithPromotion){
 
 function getTotalPrice(receiptWithSubtotal){
   let totalPrice = 0
-  receiptWithSubtotal.map(item => totalPrice += item.subtotal)
+  receiptWithSubtotal.forEach(item => totalPrice += item.subtotal)
   return totalPrice
 }
 
 function createFinalReceipt(receiptWithSubtotal, totalPrice){
   let receipt = `***<store earning no money>Receipt ***\n`
   let saving = 0
-  receiptWithSubtotal.map(item =>
+  receiptWithSubtotal.forEach(item =>
     {
     receipt += `Name: ${item.name}, Quantity: ${item.quantity} ${item.unit}, Unit price: ${item.price.toFixed(2)} (yuan), Subtotal: ${item.subtotal.toFixed(2)} (yuan)\n`
     saving += (item.price * item.quantity) - (item.subtotal)
