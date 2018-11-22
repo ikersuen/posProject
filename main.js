@@ -20,7 +20,7 @@ function calQuantity(allItems, itemBarcode){
     if(barcode.includes('-')) {
       uniqueItemList.map(function(uniqueItem){
          if(uniqueItem.barcode === barcode.substring(0,10)){
-           uniqueItem.quantity += parseInt(barcode.split("-")[1])
+           uniqueItem.quantity += parseFloat(barcode.split("-")[1])
          }else{
            uniqueItem.quantity += 0
          }
@@ -73,7 +73,7 @@ function createFinalReceipt(receiptWithSubtotal, totalPrice){
     saving += (item.price * item.quantity) - (item.subtotal)
     }
   )
-  receipt += `----------------------\nTotal: ${totalPrice} (yuan)\nSaving: ${saving} (yuan)\n**********************`
+  receipt += `----------------------\nTotal: ${totalPrice.toFixed(2)} (yuan)\nSaving: ${saving.toFixed(2)} (yuan)\n**********************`
   return receipt
 }
 
@@ -83,8 +83,6 @@ function main(){
   var itemBarcode = loadItemBarcode()
   return printReceipt(allItems, itemBarcode, promotions)
 }
-
-console.log(main());
 
 function loadItemBarcode(){
   return [
@@ -105,13 +103,13 @@ function loadAllItems() {
     {
       barcode: 'ITEM000000',
       name: 'Coca-Cola',
-      unit: 'bottles',
+      unit: 'bottle',
       price: 3.00
     },
     {
       barcode: 'ITEM000001',
       name: 'Sprite',
-      unit: 'bottles',
+      unit: 'bottle',
       price: 3.00
     },
     {
@@ -122,20 +120,20 @@ function loadAllItems() {
     },
     {
       barcode: 'ITEM000003',
-      name: 'Lychee',
+      name: 'Litchi',
       unit: 'kg',
       price: 15.00
     },
     {
       barcode: 'ITEM000004',
       name: 'Battery',
-      unit: 'unit',
+      unit: 'box',
       price: 2.00
     },
     {
       barcode: 'ITEM000005',
       name: 'Noodles',
-      unit: 'pack',
+      unit: 'bag',
       price: 4.50
     }
   ];
