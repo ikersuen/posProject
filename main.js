@@ -70,8 +70,14 @@ function getTotalPrice(receiptWithSubtotal){
 
 function createFinalReceipt(receiptWithSubtotal, totalPrice){
   let receipt = `***<store earning no money>Receipt ***\n`;
-  receiptWithSubtotal.forEach(item => receipt += `Name: ${item.name}, Quantity: ${item.quantity} ${item.unit}, Unit price: ${item.price} (yuan), Subtotal: ${item.subtotal}.00 (yuan)\n`)
-  receipt += `----------------------\nTotal: ${totalPrice} (yuan)\nSaving: 4.00 (yuan)\n**********************`
+  let saving = 0;
+  receiptWithSubtotal.forEach(item =>
+    {
+    receipt += `Name: ${item.name}, Quantity: ${item.quantity} ${item.unit}, Unit price: ${item.price.toFixed(2)} (yuan), Subtotal: ${item.subtotal.toFixed(2)} (yuan)\n`
+    saving += (item.price * item.quantity) - (item.subtotal)
+    }
+  )
+  receipt += `----------------------\nTotal: ${totalPrice} (yuan)\nSaving: ${saving} (yuan)\n**********************`
   return receipt
 }
 

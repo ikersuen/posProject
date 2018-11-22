@@ -94,12 +94,12 @@ it ('createFinalReceipt', () => {
 
   let expected =
 `***<store earning no money>Receipt ***
-Name: Sprite, Quantity: 5 bottles, Unit price: 3 (yuan), Subtotal: 12.00 (yuan)
-Name: Lychee, Quantity: 2 kg, Unit price: 15 (yuan), Subtotal: 30.00 (yuan)
-Name: Noodles, Quantity: 3 pack, Unit price: 4.5 (yuan), Subtotal: 9.00 (yuan)
+Name: Sprite, Quantity: 5 bottles, Unit price: 3.00 (yuan), Subtotal: 12.00 (yuan)
+Name: Lychee, Quantity: 2 kg, Unit price: 15.00 (yuan), Subtotal: 30.00 (yuan)
+Name: Noodles, Quantity: 3 pack, Unit price: 4.50 (yuan), Subtotal: 9.00 (yuan)
 ----------------------
 Total: 51 (yuan)
-Saving: 4.00 (yuan)
+Saving: 7.5 (yuan)
 **********************`
 
   expect(printReceipt.createFinalReceipt(receiptWithSubtotal,printReceipt.getTotalPrice(receiptWithSubtotal))).toEqual(expected);
