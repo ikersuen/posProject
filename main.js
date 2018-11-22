@@ -1,77 +1,73 @@
 function printReceipt(allItems, itemBarcode, promotions){
-  let uniqueItemList = calQuantity(allItems, itemBarcode);
-  let receiptWithPromotion = checkPromotion(uniqueItemList, promotions);
-  let receiptWithSubtotal = getSubtotalPerItem(receiptWithPromotion);
-  let totalPrice = getTotalPrice(receiptWithSubtotal);
-  let receipt = createFinalReceipt(receiptWithSubtotal, totalPrice);
-  return receipt;
+  let uniqueItemList = calQuantity(allItems, itemBarcode)
+  let receiptWithPromotion = checkPromotion(uniqueItemList, promotions)
+  let receiptWithSubtotal = getSubtotalPerItem(receiptWithPromotion)
+  let totalPrice = getTotalPrice(receiptWithSubtotal)
+  let receipt = createFinalReceipt(receiptWithSubtotal, totalPrice)
+  return receipt
 }
 
 function calQuantity(allItems, itemBarcode){
 
-  var receiptWithQuantity = [];
-  var uniqueItemList = [];
+  var receiptWithQuantity = []
+  var uniqueItemList = []
   //find unique item List
-  uniqueItemList = allItems.filter(item => itemBarcode.map((x) => x.split("-")[0]).includes(item.barcode));
+  uniqueItemList = allItems.filter(item => itemBarcode.map((x) => x.split("-")[0]).includes(item.barcode))
   //initialize quantity in each object
-  uniqueItemList.forEach(item => item.quantity = 0);
+  uniqueItemList.forEach(item => item.quantity = 0)
   //check quantity in barcode and itemBarcode
-  itemBarcode.forEach(function(barcode) {
+  itemBarcode.map(function(barcode) {
     if(barcode.includes('-')) {
-      uniqueItemList.forEach(function(uniqueItem){
+      uniqueItemList.map(function(uniqueItem){
          if(uniqueItem.barcode === barcode.substring(0,10)){
-           uniqueItem.quantity += parseInt(barcode.split("-")[1]);
+           uniqueItem.quantity += parseInt(barcode.split("-")[1])
          }else{
-           uniqueItem.quantity += 0;
+           uniqueItem.quantity += 0
          }
       });
-      }else{
-        uniqueItemList.forEach(function(uniqueItem){
-            uniqueItem.quantity += (uniqueItem.barcode === barcode.substring(0,10)) ? 1 : 0
-        });
-      }
+    }else{
+      uniqueItemList.map(uniqueItem => uniqueItem.quantity += (uniqueItem.barcode === barcode.substring(0,10)) ? 1 : 0)
+    }
   });
-  return uniqueItemList;
+  return uniqueItemList
 }
 
 function checkPromotion(uniqueItemList, promotions){
   let receptwithPromotion = []
 
-	uniqueItemList.forEach((uniqueItem) => {
-    uniqueItem.promotionType = 'NULL';
-    promotions.forEach(promote =>
-       uniqueItem.promotionType = (promote.barcodes.includes(uniqueItem.barcode)) ? promote.type : 'NULL'
-    );
+	uniqueItemList.map((uniqueItem) => {
+    uniqueItem.promotionType = 'NULL'
+    promotions.map(promote => uniqueItem.promotionType = (promote.barcodes.includes(uniqueItem.barcode)) ? promote.type : 'NULL')
 	})
-  receiptWithPromotion = uniqueItemList;
-  return receiptWithPromotion;
+  receiptWithPromotion = uniqueItemList
+  return receiptWithPromotion
 }
 
 function getSubtotalPerItem(receiptWithPromotion){
   let receiptWithSubtotal = []
 
-  receiptWithPromotion.forEach((uniqueItem) => {
+  receiptWithPromotion.map((uniqueItem) => {
     uniqueItem.subtotal = 0;
     if(uniqueItem.promotionType === 'BUY_TWO_GET_ONE_FREE'){
-      uniqueItem.subtotal = uniqueItem.price * (uniqueItem.quantity - parseInt(uniqueItem.quantity/3));
+      uniqueItem.subtotal = uniqueItem.price * (uniqueItem.quantity - parseInt(uniqueItem.quantity/3))
     }else{
       uniqueItem.subtotal = uniqueItem.price * uniqueItem.quantity;
     }
 	})
-  receiptWithSubtotal = receiptWithPromotion;
+  receiptWithSubtotal = receiptWithPromotion
   return receiptWithSubtotal
 }
 
 function getTotalPrice(receiptWithSubtotal){
-  let totalPrice = 0;
-  receiptWithSubtotal.forEach(item => totalPrice += item.subtotal)
+  let totalPrice = 0
+  receiptWithSubtotal.map(item => totalPrice += item.subtotal)
   return totalPrice
 }
 
 function createFinalReceipt(receiptWithSubtotal, totalPrice){
-  let receipt = `***<store earning no money>Receipt ***\n`;
-  let saving = 0;
-  receiptWithSubtotal.forEach(item =>
+  let receipt = `***<store earning no money>Receipt ***\n`
+  let saving = 0
+  receiptWithSubtotal.map(item =>
     {
     receipt += `Name: ${item.name}, Quantity: ${item.quantity} ${item.unit}, Unit price: ${item.price.toFixed(2)} (yuan), Subtotal: ${item.subtotal.toFixed(2)} (yuan)\n`
     saving += (item.price * item.quantity) - (item.subtotal)
@@ -82,10 +78,10 @@ function createFinalReceipt(receiptWithSubtotal, totalPrice){
 }
 
 function main(){
-  var allItems = loadAllItems();
-  var promotions = loadPromotions();
-  var itemBarcode = loadItemBarcode();
-  return printReceipt(allItems, itemBarcode, promotions);
+  var allItems = loadAllItems()
+  var promotions = loadPromotions()
+  var itemBarcode = loadItemBarcode()
+  return printReceipt(allItems, itemBarcode, promotions)
 }
 
 console.log(main());
